@@ -1,0 +1,51 @@
+﻿<Window x:Class="Koni.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Koni.WPF"
+        mc:Ignorable="d"
+        Title="Koni" Height="450" Width="600" 
+        WindowStartupLocation="CenterScreen">
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Save" CanExecute="Commands_CanExecute" Executed="StartCommand_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Print" CanExecute="Commands_CanExecute" Executed="PresetsCommand_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Delete" CanExecute="Commands_CanExecute" Executed="DeleteCommand_Executed"/>
+        <CommandBinding Command="ApplicationCommands.SelectAll" CanExecute="Commands_CanExecute" Executed="SelectAllCommand_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Stop" CanExecute="Commands_CanExecute" Executed="ExitCommand_Executed"/>
+    </Window.CommandBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Button HorizontalAlignment="Left" Command="ApplicationCommands.Print">Presets</Button>
+            <Button HorizontalAlignment="Right" Command="ApplicationCommands.Save">Start</Button>
+        </Grid>
+        <ListBox x:Name="QueueView" Grid.Row="1" AllowDrop="True" Drop="ListBox_Drop" DragEnter="ListBox_DragEnter">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <RadioButton IsChecked="{Binding IsSaved}"/>
+                        <TextBlock Text="{Binding Title}" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding FileName}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBlock x:Name="Placeholder" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            Drag file(s) and drop here
+        </TextBlock>
+        <StatusBar Grid.Row="2">
+            <StatusBarItem>
+                <TextBlock x:Name="CountStatusBar" Text="0 file"/>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock x:Name="PercentStatusBar"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>

@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Koni.WPF", "Koni.WPF\Koni.WPF.csproj", "{E59F3A81-BFB5-43B2-9D01-9EBCBD77F6DA}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Koni.Engine", "Koni.Engine\Koni.Engine.fsproj", "{E446FC0F-C257-4BB6-8075-B9F6C4009557}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Koni.Test", "Koni.Test\Koni.Test.csproj", "{B7E1B265-A03E-4C39-ADA4-B9044BCB8F96}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E59F3A81-BFB5-43B2-9D01-9EBCBD77F6DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E59F3A81-BFB5-43B2-9D01-9EBCBD77F6DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E59F3A81-BFB5-43B2-9D01-9EBCBD77F6DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E59F3A81-BFB5-43B2-9D01-9EBCBD77F6DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E446FC0F-C257-4BB6-8075-B9F6C4009557}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E446FC0F-C257-4BB6-8075-B9F6C4009557}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E446FC0F-C257-4BB6-8075-B9F6C4009557}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E446FC0F-C257-4BB6-8075-B9F6C4009557}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7E1B265-A03E-4C39-ADA4-B9044BCB8F96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7E1B265-A03E-4C39-ADA4-B9044BCB8F96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7E1B265-A03E-4C39-ADA4-B9044BCB8F96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7E1B265-A03E-4C39-ADA4-B9044BCB8F96}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FC8E140D-1C6A-4D79-9165-3EFCBE6258CB}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Version>0.1.0</Version>
+    <Authors>Sibernaut</Authors>
+    <AssemblyName>Koni</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Koni.Engine\Koni.Engine.fsproj" />
+  </ItemGroup>
+
+</Project>
