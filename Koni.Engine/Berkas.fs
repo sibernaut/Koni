@@ -62,5 +62,4 @@ module BerkasBerkas =
 
         items
         |> Seq.map (fun x -> getFiles x)
-        //|> Seq.filter (fun x -> x <> seq [])
         |> Seq.concat
