@@ -56,10 +56,14 @@ type VideoFiles(presets: Presets, filesystem) =
                   ReplaceWith = p.ReplaceWith })
         BerkasBerkas.create items castPresets this.FileSystem
         |> Seq.map (fun i -> new VideoFile(i.FilePath, this.Presets, this.FileSystem))
-        |> Seq.iter (fun i -> _items.Add(i))
+        |> Seq.iter (fun i -> this.Items.Add(i))
     member this.Update() =
-        let items = new ObservableCollection<VideoFile>()
-        _items
-        |> Seq.map (fun i -> new VideoFile(i.Path, this.Presets, this.FileSystem))
-        |> Seq.iter (fun i -> items.Add(i))
-        this.Items <- items
+        let items = this.Items |> Seq.toList
+        this.ClearAll()
+        items |> Seq.iter (fun i -> this.Items.Add(i))
+    member this.Delete(index) =
+        if index <> -1 then
+            this.Items.RemoveAt(index)
+    member this.ClearAll() =
+        let items = this.Items |> Seq.toList
+        items |> Seq.iter (fun i -> this.Items.Remove(i) |> ignore)

@@ -13,6 +13,7 @@
         <CommandBinding Command="ApplicationCommands.Delete" CanExecute="Commands_CanExecute" Executed="DeleteCommand_Executed"/>
         <CommandBinding Command="ApplicationCommands.SelectAll" CanExecute="Commands_CanExecute" Executed="SelectAllCommand_Executed"/>
         <CommandBinding Command="ApplicationCommands.Stop" CanExecute="Commands_CanExecute" Executed="ExitCommand_Executed"/>
+        <CommandBinding Command="{x:Static local:MainWindow.ClearAllCommand}" CanExecute="Commands_CanExecute" Executed="ClearAllCommand_Executed"/>
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>

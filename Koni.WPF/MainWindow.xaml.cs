@@ -3,6 +3,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using Koni.Engine.Wrapper;
+using System;
 using System.IO.Abstractions;
 using System.Windows;
 using System.Windows.Input;
@@ -25,6 +26,14 @@ namespace Koni.WPF
             queue = new(presets, new FileSystem());
             QueueView.ItemsSource = queue.Items;
         }
+
+        public static RoutedUICommand ClearAllCommand = new(
+            "Clear All", 
+            "ClearAll", 
+            typeof(MainWindow), 
+            new InputGestureCollection() {
+                new KeyGesture(Key.W, ModifierKeys.Control)
+            });
 
         private void Commands_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -54,7 +63,7 @@ namespace Koni.WPF
 
         private void DeleteCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            queue.Items.RemoveAt(QueueView.SelectedIndex);
+            queue.Delete(QueueView.SelectedIndex);
         }
 
         private void SelectAllCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -80,6 +89,11 @@ namespace Koni.WPF
                 var dropItems = e.Data.GetData(DataFormats.FileDrop) as string[];
                 queue.Add(dropItems);
             }
+        }
+
+        private void ClearAllCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            queue.ClearAll();
         }
     }
 }
