@@ -72,11 +72,6 @@ namespace Koni.WPF
             queue.Delete(QueueView.SelectedIndex);
         }
 
-        private void SelectAllCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            QueueView.SelectAll();
-        }
-
         private void QuitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             Close();
