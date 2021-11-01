@@ -1,0 +1,31 @@
+﻿<Window x:Class="Koni.WPF.RenameDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Koni.WPF"
+        mc:Ignorable="d"
+        Title="Rename" MinHeight="180" Width="500"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterScreen">
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Save" CanExecute="Commands_CanExecute" Executed="SaveCommand_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Stop" CanExecute="Commands_CanExecute" Executed="CancelCommand_Executed"/>
+    </Window.CommandBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <Label>Filename:</Label>
+            <Label x:Name="FilenameLabel" Content=""/>
+            <Label>Title:</Label>
+            <TextBox x:Name="TitleTextBox"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Command="ApplicationCommands.Save">Save</Button>
+            <Button Command="ApplicationCommands.Stop">Cancel</Button>
+        </StackPanel>
+    </Grid>
+</Window>

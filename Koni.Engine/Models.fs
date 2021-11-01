@@ -14,6 +14,6 @@ type BerkasModel =
     { FilePath: string
       FileName: string
       Extension: BerkasExt
-      Title: string }
+      mutable Title: string }
 
 type ConfigModel = { mutable Presets: PresetModel seq }

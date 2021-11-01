@@ -14,6 +14,7 @@
         <CommandBinding Command="ApplicationCommands.Delete" CanExecute="Commands_CanExecute" Executed="DeleteCommand_Executed"/>
         <CommandBinding Command="{x:Static local:MainWindow.QuitCommand}" CanExecute="Commands_CanExecute" Executed="QuitCommand_Executed"/>
         <CommandBinding Command="{x:Static local:MainWindow.ClearAllCommand}" CanExecute="Commands_CanExecute" Executed="ClearAllCommand_Executed"/>
+        <CommandBinding Command="{x:Static local:MainWindow.RenameCommand}" CanExecute="Commands_CanExecute" Executed="RenameCommand_Executed"/>
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>

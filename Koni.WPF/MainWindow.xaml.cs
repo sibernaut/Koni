@@ -42,6 +42,15 @@ namespace Koni.WPF
             typeof(MainWindow),
             new InputGestureCollection() { new KeyGesture(Key.Q, ModifierKeys.Control) });
 
+        public static RoutedUICommand RenameCommand = new(
+            "Rename",
+            "Rename",
+            typeof(MainWindow),
+            new InputGestureCollection() {
+                new KeyGesture(Key.E, ModifierKeys.Control),
+                new KeyGesture(Key.F2)
+            });
+
         private void Commands_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
@@ -110,6 +119,18 @@ namespace Koni.WPF
                 Placeholder.Visibility = Visibility.Hidden;
                 var items = openFileDialog.FileNames;
                 queue.Add(items);
+            }
+        }
+
+        private void RenameCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var index = QueueView.SelectedIndex;
+            var item = QueueView.SelectedItem as VideoFile;
+            var dialog = new RenameDialog(item.FileName, item.Title);
+            if (dialog.ShowDialog() == true)
+            {
+                var title = dialog.RenamedTitle;
+                queue.Rename(index, title);
             }
         }
     }

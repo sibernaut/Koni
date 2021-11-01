@@ -16,13 +16,19 @@ type VideoFile(path, presets: Presets, filesystem) =
             { SearchFor = p.SearchFor
               ReplaceWith = p.ReplaceWith })
     let _item = Berkas.create path castPresets filesystem
+    let mutable _title = _item.Title
     let ev = new Event<_,_>()
     interface INotifyPropertyChanged with
         [<CLIEvent>]
         member this.PropertyChanged = ev.Publish
     member this.Path = _item.FilePath
     member this.FileName = _item.FileName
-    member this.Title = _item.Title
+    member this.Title 
+        with get() = _title
+        and set(value) = 
+            _title <- value
+            _item.Title <- value
+            ev.Trigger(this, PropertyChangedEventArgs("Title"))
     member this.IsSaved
         with get() = _isSaved
         and set(value) = 
@@ -61,6 +67,9 @@ type VideoFiles(presets: Presets, filesystem) =
         let items = this.Items |> Seq.toList
         this.ClearAll()
         items |> Seq.iter (fun i -> this.Items.Add(i))
+    member this.Rename(index, title) =
+        if index <> -1 then
+            this.Items.[index].Title <- title
     member this.Delete(index) =
         if index <> -1 then
             this.Items.RemoveAt(index)
