@@ -8,6 +8,7 @@
         Title="Koni" Height="450" Width="600" 
         WindowStartupLocation="CenterScreen">
     <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Open" CanExecute="Commands_CanExecute" Executed="AddCommand_Executed"/>
         <CommandBinding Command="ApplicationCommands.Save" CanExecute="Commands_CanExecute" Executed="StartCommand_Executed"/>
         <CommandBinding Command="ApplicationCommands.Print" CanExecute="Commands_CanExecute" Executed="PresetsCommand_Executed"/>
         <CommandBinding Command="ApplicationCommands.Delete" CanExecute="Commands_CanExecute" Executed="DeleteCommand_Executed"/>

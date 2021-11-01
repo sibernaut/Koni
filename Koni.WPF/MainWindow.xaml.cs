@@ -3,6 +3,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using Koni.Engine.Wrapper;
+using Microsoft.Win32;
 using System;
 using System.IO.Abstractions;
 using System.Windows;
@@ -95,6 +96,21 @@ namespace Koni.WPF
         private void ClearAllCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             queue.ClearAll();
+        }
+
+        private void AddCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog()
+            {
+                Filter = "Video files(*.mp4;*.mkv)|*.mp4;*.mkv",
+                Multiselect = true
+            };
+            if (openFileDialog.ShowDialog() == true)
+            {
+                Placeholder.Visibility = Visibility.Hidden;
+                var items = openFileDialog.FileNames;
+                queue.Add(items);
+            }
         }
     }
 }
