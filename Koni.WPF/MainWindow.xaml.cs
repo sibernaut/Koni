@@ -35,6 +35,12 @@ namespace Koni.WPF
                 new KeyGesture(Key.W, ModifierKeys.Control)
             });
 
+        public static RoutedUICommand QuitCommand = new(
+            "Quit",
+            "Quit",
+            typeof(MainWindow),
+            new InputGestureCollection() { new KeyGesture(Key.Q, ModifierKeys.Control) });
+
         private void Commands_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
@@ -71,7 +77,7 @@ namespace Koni.WPF
             QueueView.SelectAll();
         }
 
-        private void ExitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void QuitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             Close();
         }
