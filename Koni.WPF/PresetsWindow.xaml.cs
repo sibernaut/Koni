@@ -35,12 +35,6 @@ namespace Koni.WPF
             config.Save();
         }
 
-        private void CancelCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            DialogResult = false;
-            Close();
-        }
-
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new PresetDialog();
@@ -84,6 +78,11 @@ namespace Koni.WPF
         {
             if (PresetsListBox.SelectedIndex != -1 || PresetsListBox.SelectedIndex < PresetsListBox.Items.Count)
                 presets.MoveDown(PresetsListBox.SelectedIndex);
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

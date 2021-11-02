@@ -8,7 +8,6 @@
         Title="Presets" Height="450" Width="800" 
         WindowStartupLocation="CenterScreen">
     <Window.CommandBindings>
-        <CommandBinding Command="ApplicationCommands.Stop" CanExecute="Commands_CanExecute" Executed="CancelCommand_Executed"/>
         <CommandBinding Command="ApplicationCommands.Save" CanExecute="Commands_CanExecute" Executed="SaveCommand_Executed"/>
     </Window.CommandBindings>
     <Grid>
@@ -31,7 +30,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <StackPanel Grid.Row="0" Grid.Column="1">
-            <Button Click="AddButton_Click">_Add</Button>
+            <Button IsDefault="True" Click="AddButton_Click">_Add</Button>
             <Button Click="EditButton_Click">_Edit</Button>
             <Button Click="DeleteButton_Click">_Delete</Button>
             <Button Click="MoveUpButton_Click">Move _up</Button>
@@ -39,7 +38,7 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1" Grid.ColumnSpan="2">
             <Button Command="ApplicationCommands.Save">_Save</Button>
-            <Button Command="ApplicationCommands.Stop">_Cancel</Button>
+            <Button IsCancel="True" Click="CancelButton_Click">_Cancel</Button>
         </StackPanel>
     </Grid>
 </Window>
