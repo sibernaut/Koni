@@ -23,8 +23,8 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <Button HorizontalAlignment="Left" Command="ApplicationCommands.Print">Presets</Button>
-            <Button HorizontalAlignment="Right" Command="ApplicationCommands.Save">Start</Button>
+            <Button HorizontalAlignment="Left" Command="ApplicationCommands.Print">_Presets</Button>
+            <Button HorizontalAlignment="Right" Command="ApplicationCommands.Save">_Start</Button>
         </Grid>
         <ListBox x:Name="QueueView" Grid.Row="1" AllowDrop="True" Drop="ListBox_Drop" DragEnter="ListBox_DragEnter">
             <ListBox.ItemTemplate>

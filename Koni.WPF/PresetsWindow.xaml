@@ -31,15 +31,15 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <StackPanel Grid.Row="0" Grid.Column="1">
-            <Button Click="AddButton_Click">Add</Button>
-            <Button Click="EditButton_Click">Edit</Button>
-            <Button Click="DeleteButton_Click">Delete</Button>
-            <Button Click="MoveUpButton_Click">Move up</Button>
-            <Button Click="MoveDownButton_Click">Move down</Button>
+            <Button Click="AddButton_Click">_Add</Button>
+            <Button Click="EditButton_Click">_Edit</Button>
+            <Button Click="DeleteButton_Click">_Delete</Button>
+            <Button Click="MoveUpButton_Click">Move _up</Button>
+            <Button Click="MoveDownButton_Click">Move d_own</Button>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1" Grid.ColumnSpan="2">
-            <Button Command="ApplicationCommands.Save">Save</Button>
-            <Button Command="ApplicationCommands.Stop">Cancel</Button>
+            <Button Command="ApplicationCommands.Save">_Save</Button>
+            <Button Command="ApplicationCommands.Stop">_Cancel</Button>
         </StackPanel>
     </Grid>
 </Window>

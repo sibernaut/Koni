@@ -23,7 +23,7 @@
             <TextBox x:Name="TitleTextBox"/>
         </StackPanel>
         <Grid Grid.Row="1">
-            <Button Command="{x:Static local:RenameDialog.ResetCommand}" HorizontalAlignment="Left">Reset</Button>
+            <Button Command="{x:Static local:RenameDialog.ResetCommand}" HorizontalAlignment="Left">_Reset</Button>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button IsDefault="True" Click="SaveButton_Click">_Save</Button>
                 <Button IsCancel="True" Click="CancelButton_Click">_Cancel</Button>
