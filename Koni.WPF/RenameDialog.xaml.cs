@@ -44,21 +44,21 @@ namespace Koni.WPF
             e.CanExecute = true;
         }
 
-        private void SaveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void ResetCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            VideoFile.Reset();
+            Close();
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
             RenamedTitle = TitleTextBox.Text;
             Close();
         }
 
-        private void CancelCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            Close();
-        }
-
-        private void ResetCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            VideoFile.Reset();
             Close();
         }
     }

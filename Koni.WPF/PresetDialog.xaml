@@ -7,10 +7,6 @@
         mc:Ignorable="d"
         Title="PresetDialog" Height="180" Width="500"
         WindowStartupLocation="CenterScreen">
-    <Window.CommandBindings>
-        <CommandBinding Command="ApplicationCommands.Save" CanExecute="Commands_CanExecute" Executed="SaveCommand_Executed"/>
-        <CommandBinding Command="ApplicationCommands.Stop" CanExecute="Commands_CanExecute" Executed="CancelCommand_Executed"/>
-    </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -23,8 +19,8 @@
             <TextBox x:Name="ReplaceWith"/>
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Command="ApplicationCommands.Save">Save</Button>
-            <Button Command="ApplicationCommands.Stop">Cancel</Button>
+            <Button IsDefault="True" Click="SaveButton_Click">_Save</Button>
+            <Button IsCancel="True" Click="CancelButton_Click">_Cancel</Button>
         </StackPanel>
     </Grid>
 </Window>

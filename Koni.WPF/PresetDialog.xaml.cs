@@ -26,20 +26,14 @@ namespace Koni.WPF
             ReplaceWith.Text = replace;
         }
 
-        private void Commands_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-
-        private void SaveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
             Close();
         }
 
-        private void CancelCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = false;
             Close();
         }
     }

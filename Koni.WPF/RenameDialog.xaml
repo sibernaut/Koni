@@ -9,8 +9,6 @@
         SizeToContent="Height"
         WindowStartupLocation="CenterScreen">
     <Window.CommandBindings>
-        <CommandBinding Command="ApplicationCommands.Save" CanExecute="Commands_CanExecute" Executed="SaveCommand_Executed"/>
-        <CommandBinding Command="ApplicationCommands.Stop" CanExecute="Commands_CanExecute" Executed="CancelCommand_Executed"/>
         <CommandBinding Command="{x:Static local:RenameDialog.ResetCommand}" CanExecute="Commands_CanExecute" Executed="ResetCommand_Executed"/>
     </Window.CommandBindings>
     <Grid>
@@ -27,8 +25,8 @@
         <Grid Grid.Row="1">
             <Button Command="{x:Static local:RenameDialog.ResetCommand}" HorizontalAlignment="Left">Reset</Button>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Command="ApplicationCommands.Save">Save</Button>
-                <Button Command="ApplicationCommands.Stop">Cancel</Button>
+                <Button IsDefault="True" Click="SaveButton_Click">_Save</Button>
+                <Button IsCancel="True" Click="CancelButton_Click">_Cancel</Button>
             </StackPanel>
         </Grid>
     </Grid>
