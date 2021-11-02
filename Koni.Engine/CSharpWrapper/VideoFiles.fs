@@ -9,13 +9,14 @@ open System.ComponentModel
 open Koni.Engine
 
 type VideoFile(path, presets: Presets, filesystem) =
+    let _fs = filesystem
     let mutable _isSaved = false
     let castPresets =
         presets.Items 
         |> Seq.map (fun p -> 
             { SearchFor = p.SearchFor
               ReplaceWith = p.ReplaceWith })
-    let _item = Berkas.create path castPresets filesystem
+    let _item = Berkas.create path castPresets _fs
     let mutable _title = _item.Title
     let ev = new Event<_,_>()
     interface INotifyPropertyChanged with
@@ -34,6 +35,9 @@ type VideoFile(path, presets: Presets, filesystem) =
         and set(value) = 
             _isSaved <- value
             ev.Trigger(this, PropertyChangedEventArgs("IsSaved"))
+    member this.Reset() =
+        let item = Berkas.reset _item castPresets _fs
+        this.Title <- item.Title
     member this.Save() = 
         Berkas.save _item
         this.IsSaved <- true

@@ -126,7 +126,7 @@ namespace Koni.WPF
         {
             var index = QueueView.SelectedIndex;
             var item = QueueView.SelectedItem as VideoFile;
-            var dialog = new RenameDialog(item.FileName, item.Title);
+            var dialog = new RenameDialog(item);
             if (dialog.ShowDialog() == true)
             {
                 var title = dialog.RenamedTitle;

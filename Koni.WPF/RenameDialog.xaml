@@ -11,6 +11,7 @@
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Save" CanExecute="Commands_CanExecute" Executed="SaveCommand_Executed"/>
         <CommandBinding Command="ApplicationCommands.Stop" CanExecute="Commands_CanExecute" Executed="CancelCommand_Executed"/>
+        <CommandBinding Command="{x:Static local:RenameDialog.ResetCommand}" CanExecute="Commands_CanExecute" Executed="ResetCommand_Executed"/>
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -23,9 +24,12 @@
             <Label>Title:</Label>
             <TextBox x:Name="TitleTextBox"/>
         </StackPanel>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Command="ApplicationCommands.Save">Save</Button>
-            <Button Command="ApplicationCommands.Stop">Cancel</Button>
-        </StackPanel>
+        <Grid Grid.Row="1">
+            <Button Command="{x:Static local:RenameDialog.ResetCommand}" HorizontalAlignment="Left">Reset</Button>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Command="ApplicationCommands.Save">Save</Button>
+                <Button Command="ApplicationCommands.Stop">Cancel</Button>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

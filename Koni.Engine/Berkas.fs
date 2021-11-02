@@ -23,6 +23,10 @@ module Berkas =
           Extension = ext
           Title = Presets.apply presets title }
 
+    let reset berkas presets (filesystem: IFileSystem) =
+        let title = filesystem.Path.GetFileNameWithoutExtension(berkas.FilePath)
+        { berkas with Title = Presets.apply presets title }
+
     let save berkas =
         match berkas.Extension with
         | MP4 ->

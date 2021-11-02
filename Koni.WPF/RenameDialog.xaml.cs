@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Koni.Engine.Wrapper;
 
 namespace Koni.WPF
 {
@@ -23,16 +24,20 @@ namespace Koni.WPF
     /// </summary>
     public partial class RenameDialog : Window
     {
+        private VideoFile VideoFile;
         public string RenamedTitle;
 
-        public RenameDialog(string filename, string title)
+        public RenameDialog(VideoFile item)
         {
             InitializeComponent();
-            FilenameLabel.Content = filename;
-            TitleTextBox.Text = title;
+            VideoFile = item;
+            FilenameLabel.Content = VideoFile.FileName;
+            TitleTextBox.Text = VideoFile.Title;
             TitleTextBox.Focus();
             TitleTextBox.SelectAll();
         }
+
+        public static RoutedUICommand ResetCommand = new("Reset", "Reset", typeof(RenameDialog));
 
         private void Commands_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -48,6 +53,12 @@ namespace Koni.WPF
 
         private void CancelCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            Close();
+        }
+
+        private void ResetCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            VideoFile.Reset();
             Close();
         }
     }
