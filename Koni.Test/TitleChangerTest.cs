@@ -1,42 +1,50 @@
-﻿using Koni.Engine.Wrapper;
+﻿// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+using Koni.Engine.Wrapper;
 using System;
 using System.Collections.Generic;
 using System.IO.Abstractions.TestingHelpers;
+using System.Linq;
 using Xunit;
 
 namespace Koni.Test
 {
-    public class UnitTest1
+    public class TitleChangerTest
     {
-        private class TestItem
+        static MockFileSystem fileSystem = new();
+        Config config = new(fileSystem);
+
+        class TestItem
         {
-            public string FilePath { get; set; }
-            public string ExpectedTitle { get; set; }
-            public VideoFile VideoFile { get; set; }
+            public string Path { get; }
+            public string Expected { get; }
 
             public TestItem(string path, string expected)
             {
-                FilePath = path;
-                ExpectedTitle = expected;
+                Path = path;
+                Expected = expected;
             }
         }
 
-        private VideoFile GetVideoFile(TestItem item, Presets presets, MockFileSystem mockFileSystem)
+        private void AssertEqual(IEnumerable<TestItem> items, VideoFiles videoFiles, Config config, MockFileSystem fileSystem)
         {
-            var data = new MockFileData("\n");
-            string path = @"C:\Users\User\Video\Anime\" + item.FilePath;
-            mockFileSystem.AddFile(path, data);
-            return new VideoFile(item.FilePath, presets, mockFileSystem);
+            var mockData = new MockFileData("\n");
+            var _items = items.Select(x => @"C:\Users\User\Video\Anime\" + x.Path).ToList();
+            _items.ForEach(x => fileSystem.AddFile(x, mockData));
+            videoFiles.Add(_items);
+            var expected = items.Select(x => x.Expected);
+            var actual = videoFiles.Items.Select(x => x.Title);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public void ColonTest()
+        public void UsingDefaultPresetTest()
         {
-            var mockFileSystem = new MockFileSystem();
-            var config = new Config(mockFileSystem);
-            mockFileSystem.AddDirectory(AppContext.BaseDirectory);
+            fileSystem.AddDirectory(AppContext.BaseDirectory);
             config.Load();
-            var presets = config.Presets;
+            var videoFiles = new VideoFiles(config.Presets, fileSystem);
             var items = new List<TestItem>()
             {
                 new TestItem(
@@ -61,19 +69,13 @@ namespace Koni.Test
                 )
             };
 
-            foreach (var item in items)
-            {
-                item.VideoFile = GetVideoFile(item, presets, mockFileSystem);
-                Assert.Equal(item.ExpectedTitle, item.VideoFile.Title);
-            }
+            AssertEqual(items, videoFiles, config, fileSystem);
         }
 
         [Fact]
-        public void PresetsTest()
+        public void UsingCustomPresetsTest()
         {
-            var mockFileSystem = new MockFileSystem();
-            var config = new Config(mockFileSystem);
-            mockFileSystem.AddDirectory(AppContext.BaseDirectory);
+            fileSystem.AddDirectory(AppContext.BaseDirectory);
             config.Load();
             var presets = config.Presets;
             presets.Add(
@@ -88,6 +90,7 @@ namespace Koni.Test
             presets.Add(
                 "Busou Shoujo Machiavellianism: Doki! 'Goken-darake' no Ian Ryokou",
                 "Busou Shoujo Machiavellianism: Doki! \"Goken-darake\" no Ian Ryokou");
+            var videoFiles = new VideoFiles(config.Presets, fileSystem);
             var items = new List<TestItem>()
             {
                 new TestItem(
@@ -111,11 +114,7 @@ namespace Koni.Test
                 )
             };
 
-            foreach (var item in items)
-            {
-                item.VideoFile = GetVideoFile(item, presets, mockFileSystem);
-                Assert.Equal(item.ExpectedTitle, item.VideoFile.Title);
-            }
+            AssertEqual(items, videoFiles, config, fileSystem);
         }
     }
 }

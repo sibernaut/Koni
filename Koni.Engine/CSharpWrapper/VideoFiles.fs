@@ -58,7 +58,7 @@ type VideoFiles(presets: Presets, filesystem) =
         and set(value) = 
             _items <- value
             ev.Trigger(this, PropertyChangedEventArgs("Items"))
-    member this.Add(items: string[]) = 
+    member this.Add(items: string seq) = 
         let castPresets =
             this.Presets.Items
             |> Seq.map (fun p -> 
