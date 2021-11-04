@@ -49,6 +49,12 @@ namespace Koni.WPF
                 new KeyGesture(Key.F2)
             });
 
+        public static RoutedUICommand RefreshCommand = new(
+            "Refresh",
+            "Refresh",
+            typeof(MainWindow),
+            new InputGestureCollection() { new KeyGesture(Key.R, ModifierKeys.Control) });
+
         private void Commands_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
@@ -72,6 +78,7 @@ namespace Koni.WPF
             if (presetsWindow.ShowDialog() == true)
             {
                 config.Load();
+                queue.UpdatePresets(config.Presets);
             }
         }
 
@@ -130,6 +137,11 @@ namespace Koni.WPF
                 var title = dialog.RenamedTitle;
                 queue.Rename(index, title);
             }
+        }
+
+        private void RefreshCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            queue.ResetItems();
         }
     }
 }

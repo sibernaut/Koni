@@ -48,20 +48,20 @@ type VideoFiles(presets: Presets, filesystem) =
     member this.Add(items: string seq) = 
         VideoFiles.create items _presets' _fs
         |> Seq.map (fun i -> new VideoFile(i.FilePath, _presets, _fs))
-        |> Seq.iter (fun i -> this.Items.Add(i))
+        |> Seq.iter (fun i -> _items.Add(i))
     member this.UpdatePresets(presets) = _presets <- presets
-    member this.UpdateItems() =
-        let items = this.Items |> Seq.toList
+    member this.ResetItems() =
+        let items = _items |> Seq.map (fun v -> v.Path) |> Seq.toList
         this.ClearAll()
-        items |> Seq.iter (fun i -> this.Items.Add(i))
+        this.Add(items)
     member this.Rename(index, title) =
         if index <> -1 then
-            this.Items.[index].Title <- title
+            _items.[index].Title <- title
     member this.Delete(index) =
         if index <> -1 then
-            this.Items.RemoveAt(index)
+            _items.RemoveAt(index)
     member this.ClearAll() =
-        let items = this.Items |> Seq.toList
-        items |> Seq.iter (fun i -> this.Items.Remove(i) |> ignore)
+        let items = _items |> Seq.toList
+        items |> Seq.iter (fun i -> _items.Remove(i) |> ignore)
 
     new(presets) = VideoFiles(presets, new FileSystem())
