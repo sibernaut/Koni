@@ -12,7 +12,7 @@
     <Compile Include="Models.fs" />
     <Compile Include="Preset.fs" />
     <Compile Include="Configuration.fs" />
-    <Compile Include="Berkas.fs" />
+    <Compile Include="VideoFile.fs" />
     <Compile Include="CSharpWrapper\Presets.fs" />
     <Compile Include="CSharpWrapper\Configurations.fs" />
     <Compile Include="CSharpWrapper\VideoFiles.fs" />

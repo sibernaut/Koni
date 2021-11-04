@@ -5,15 +5,15 @@
 namespace Koni.Engine
 
 type PresetModel =
-    { mutable SearchFor: string
-      mutable ReplaceWith: string }
+    { SearchFor: string
+      ReplaceWith: string }
 
 type BerkasExt = MKV | MP4 | Unsupported
 
-type BerkasModel =
+type ConfigModel = { Presets: PresetModel seq }
+
+type VideoFileModel =
     { FilePath: string
       FileName: string
       Extension: BerkasExt
-      mutable Title: string }
-
-type ConfigModel = { mutable Presets: PresetModel seq }
+      Title: string }

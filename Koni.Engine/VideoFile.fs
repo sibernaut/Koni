@@ -9,7 +9,7 @@ open System.Diagnostics
 open System.IO
 open System.IO.Abstractions
 
-module Berkas =
+module VideoFile =
     let create path presets (filesystem: IFileSystem) =
         let ext =
             match filesystem.Path.GetExtension(path) with
@@ -22,16 +22,15 @@ module Berkas =
           FileName = filename
           Extension = ext
           Title = Presets.apply presets title }
-
-    let reset berkas presets (filesystem: IFileSystem) =
-        let title = filesystem.Path.GetFileNameWithoutExtension(berkas.FilePath)
-        { berkas with Title = Presets.apply presets title }
-
-    let save berkas =
-        match berkas.Extension with
+    let update item title = { item with Title = title }
+    let reset item presets (filesystem: IFileSystem) =
+        let title = filesystem.Path.GetFileNameWithoutExtension(item.FilePath)
+        { item with Title = Presets.apply presets title }
+    let save item =
+        match item.Extension with
         | MP4 ->
-            let tfile = TagLib.File.Create berkas.FilePath
-            tfile.Tag.Title <- berkas.Title
+            let tfile = TagLib.File.Create item.FilePath
+            tfile.Tag.Title <- item.Title
             tfile.Save()
         | MKV ->
             let startinfo =
@@ -39,7 +38,7 @@ module Berkas =
                     UseShellExecute = false,
                     CreateNoWindow = true,
                     FileName = "mkvpropedit.exe",
-                    Arguments = sprintf "--edit info --set title=\"%s\" \"%s\"" berkas.Title berkas.FilePath
+                    Arguments = sprintf "--edit info --set title=\"%s\" \"%s\"" item.Title item.FilePath
                 )
             let ps = Process.Start(startinfo)
             ps.Start() |> ignore
@@ -47,7 +46,7 @@ module Berkas =
         | Unsupported -> 
             NotImplementedException() |> ignore
 
-module BerkasBerkas =
+module VideoFiles =
     let create items presets (filesystem: IFileSystem) =
         let isFolder item = filesystem.File.GetAttributes(item).HasFlag(FileAttributes.Directory)
         let isVideo path = 
@@ -58,10 +57,10 @@ module BerkasBerkas =
             | true ->
                 filesystem.Directory.EnumerateFiles(path)
                 |> Seq.filter isVideo
-                |> Seq.map (fun b -> Berkas.create b presets filesystem)
+                |> Seq.map (fun b -> VideoFile.create b presets filesystem)
             | false ->
                 match isVideo path with
-                | true -> seq [ Berkas.create path presets filesystem ]
+                | true -> seq [ VideoFile.create path presets filesystem ]
                 | false -> seq []
 
         items

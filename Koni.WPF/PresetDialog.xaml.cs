@@ -3,7 +3,6 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using System.Windows;
-using System.Windows.Input;
 
 namespace Koni.WPF
 {

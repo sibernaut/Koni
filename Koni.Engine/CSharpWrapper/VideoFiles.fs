@@ -6,68 +6,51 @@ namespace Koni.Engine.Wrapper
 
 open System.Collections.ObjectModel
 open System.ComponentModel
+open System.IO.Abstractions
 open Koni.Engine
 
 type VideoFile(path, presets: Presets, filesystem) =
     let _fs = filesystem
+    let _presets = presets.Items |> Seq.map (fun p -> Preset.create p.SearchFor p.ReplaceWith)
     let mutable _isSaved = false
-    let castPresets =
-        presets.Items 
-        |> Seq.map (fun p -> 
-            { SearchFor = p.SearchFor
-              ReplaceWith = p.ReplaceWith })
-    let _item = Berkas.create path castPresets _fs
-    let mutable _title = _item.Title
-    let ev = new Event<_,_>()
+    let mutable _item = VideoFile.create path _presets _fs
+
+    let event = new Event<_,_>()
     interface INotifyPropertyChanged with
         [<CLIEvent>]
-        member this.PropertyChanged = ev.Publish
+        member this.PropertyChanged = event.Publish
+
     member this.Path = _item.FilePath
     member this.FileName = _item.FileName
     member this.Title 
-        with get() = _title
+        with get() = _item.Title
         and set(value) = 
-            _title <- value
-            _item.Title <- value
-            ev.Trigger(this, PropertyChangedEventArgs("Title"))
+            _item <- VideoFile.update _item value
+            event.Trigger(this, PropertyChangedEventArgs("Title"))
     member this.IsSaved
         with get() = _isSaved
-        and set(value) = 
-            _isSaved <- value
-            ev.Trigger(this, PropertyChangedEventArgs("IsSaved"))
-    member this.Reset() =
-        let item = Berkas.reset _item castPresets _fs
-        this.Title <- item.Title
+        and set(value) = _isSaved <- value
+    member this.Reset() = 
+        _item <- VideoFile.reset _item _presets _fs
+        event.Trigger(this, PropertyChangedEventArgs("Title"))
     member this.Save() = 
-        Berkas.save _item
-        this.IsSaved <- true
+        VideoFile.save _item
+        _isSaved <- true
+        event.Trigger(this, PropertyChangedEventArgs("IsSaved"))
 
 type VideoFiles(presets: Presets, filesystem) =
+    let _fs = filesystem
     let mutable _presets = presets
+    let _presets' = presets.Items |> Seq.map (fun p -> Preset.create p.SearchFor p.ReplaceWith)
     let mutable _items = new ObservableCollection<VideoFile>()
-    let ev = new Event<_,_>()
-    interface INotifyPropertyChanged with
-        [<CLIEvent>]
-        member this.PropertyChanged = ev.Publish
-    member this.FileSystem = filesystem
-    member this.Presets
-        with get() = _presets
-        and set(value) = _presets <- value
-    member this.Items
-        with get() = _items
-        and set(value) = 
-            _items <- value
-            ev.Trigger(this, PropertyChangedEventArgs("Items"))
+    member this.Presets = _presets
+    member this.Items = _items
     member this.Add(items: string seq) = 
-        let castPresets =
-            this.Presets.Items
-            |> Seq.map (fun p -> 
-                { SearchFor = p.SearchFor
-                  ReplaceWith = p.ReplaceWith })
-        BerkasBerkas.create items castPresets this.FileSystem
-        |> Seq.map (fun i -> new VideoFile(i.FilePath, this.Presets, this.FileSystem))
+        VideoFiles.create items _presets' _fs
+        |> Seq.map (fun i -> new VideoFile(i.FilePath, _presets, _fs))
         |> Seq.iter (fun i -> this.Items.Add(i))
-    member this.Update() =
+    member this.UpdatePresets(presets) = _presets <- presets
+    member this.UpdateItems() =
         let items = this.Items |> Seq.toList
         this.ClearAll()
         items |> Seq.iter (fun i -> this.Items.Add(i))
@@ -80,3 +63,5 @@ type VideoFiles(presets: Presets, filesystem) =
     member this.ClearAll() =
         let items = this.Items |> Seq.toList
         items |> Seq.iter (fun i -> this.Items.Remove(i) |> ignore)
+
+    new(presets) = VideoFiles(presets, new FileSystem())

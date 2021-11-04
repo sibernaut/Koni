@@ -4,8 +4,6 @@
 
 using Koni.Engine.Wrapper;
 using Microsoft.Win32;
-using System;
-using System.IO.Abstractions;
 using System.Windows;
 using System.Windows.Input;
 
@@ -16,7 +14,7 @@ namespace Koni.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        Config config = new Config(new FileSystem());
+        Config config = new Config();
         static Presets presets;
         VideoFiles queue;
         public MainWindow()
@@ -24,14 +22,14 @@ namespace Koni.WPF
             InitializeComponent();
             config.Load();
             presets = config.Presets;
-            queue = new(presets, new FileSystem());
+            queue = new(presets);
             QueueView.ItemsSource = queue.Items;
         }
 
         public static RoutedUICommand ClearAllCommand = new(
-            "Clear All", 
-            "ClearAll", 
-            typeof(MainWindow), 
+            "Clear All",
+            "ClearAll",
+            typeof(MainWindow),
             new InputGestureCollection() {
                 new KeyGesture(Key.W, ModifierKeys.Control)
             });

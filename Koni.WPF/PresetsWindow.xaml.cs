@@ -3,7 +3,6 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using Koni.Engine.Wrapper;
-using System.IO.Abstractions;
 using System.Windows;
 using System.Windows.Input;
 
@@ -14,7 +13,7 @@ namespace Koni.WPF
     /// </summary>
     public partial class PresetsWindow : Window
     {
-        Config config = new Config(new FileSystem());
+        Config config = new Config();
         Presets presets;
         public PresetsWindow()
         {
