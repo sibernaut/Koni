@@ -15,14 +15,12 @@ namespace Koni.WPF
     public partial class MainWindow : Window
     {
         Config config = new Config();
-        static Presets presets;
         VideoFiles queue;
         public MainWindow()
         {
             InitializeComponent();
             config.Load();
-            presets = config.Presets;
-            queue = new(presets);
+            queue = new(config);
             QueueView.ItemsSource = queue.Items;
         }
 
@@ -78,7 +76,7 @@ namespace Koni.WPF
             if (presetsWindow.ShowDialog() == true)
             {
                 config.Load();
-                queue.UpdatePresets(config.Presets);
+                queue.UpdateConfig(config);
             }
         }
 

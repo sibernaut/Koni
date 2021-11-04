@@ -7,10 +7,11 @@ namespace Koni.Engine.Wrapper
 open System.IO.Abstractions
 open Koni.Engine
 
-type Config(filesystem) =
+type Config(filesystem: IFileSystem) =
     let _filesystem = filesystem
     let mutable _item = Configuration.create Seq.empty<PresetModel>
     let mutable _presets = new Presets()
+    member this.Item = _item
     member this.Presets
         with get() = _presets
         and set(value) = _presets <- value

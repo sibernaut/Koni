@@ -10,22 +10,30 @@ open System.IO
 open System.IO.Abstractions
 
 module VideoFile =
-    let create path presets (filesystem: IFileSystem) =
+    let create path config (filesystem: IFileSystem) =
         let ext =
             match filesystem.Path.GetExtension(path) with
             | ".mp4" -> MP4
             | ".mkv" -> MKV
             | _ -> Unsupported
-        let filename = filesystem.Path.GetFileName(path)
-        let title = filesystem.Path.GetFileNameWithoutExtension(path)
-        { FilePath = path
-          FileName = filename
+        let title = 
+            filesystem.Path.GetFileNameWithoutExtension(path)
+            |> Preset.Collection.apply config.Presets
+        { FileSystem = filesystem
+          Config = config
+          FilePath = path
+          FileName = filesystem.Path.GetFileName(path)
           Extension = ext
-          Title = Presets.apply presets title }
-    let update item title = { item with Title = title }
-    let reset item presets (filesystem: IFileSystem) =
-        let title = filesystem.Path.GetFileNameWithoutExtension(item.FilePath)
-        { item with Title = Presets.apply presets title }
+          Title = title }
+    let updateConfig item config = { item with Config = config }
+    let updateTitle item title = { item with Title = title }
+    let resetTitle item =
+        let filesystem = item.FileSystem
+        let presets = item.Config.Presets
+        let title = 
+            filesystem.Path.GetFileNameWithoutExtension(item.FilePath)
+            |> Preset.Collection.apply presets
+        { item with Title = title }
     let save item =
         match item.Extension with
         | MP4 ->
@@ -46,23 +54,22 @@ module VideoFile =
         | Unsupported -> 
             NotImplementedException() |> ignore
 
-module VideoFiles =
-    let create items presets (filesystem: IFileSystem) =
-        let isFolder item = filesystem.File.GetAttributes(item).HasFlag(FileAttributes.Directory)
-        let isVideo path = 
-            let file = filesystem.Path.GetExtension(path)
-            file = ".mp4" || file = ".mkv"
-        let getFiles path =
-            match isFolder path with
-            | true ->
-                filesystem.Directory.EnumerateFiles(path)
-                |> Seq.filter isVideo
-                |> Seq.map (fun b -> VideoFile.create b presets filesystem)
-            | false ->
-                match isVideo path with
-                | true -> seq [ VideoFile.create path presets filesystem ]
-                | false -> seq []
-
-        items
-        |> Seq.map (fun x -> getFiles x)
-        |> Seq.concat
+    module Collection =
+        let create items config (filesystem: IFileSystem) =
+            let isFolder item = filesystem.File.GetAttributes(item).HasFlag(FileAttributes.Directory)
+            let isVideo path = 
+                let file = filesystem.Path.GetExtension(path)
+                file = ".mp4" || file = ".mkv"
+            let getFiles path =
+                match isFolder path with
+                | true ->
+                    filesystem.Directory.EnumerateFiles(path)
+                    |> Seq.filter isVideo
+                    |> Seq.map (fun b -> create b config filesystem)
+                | false ->
+                    match isVideo path with
+                    | true -> seq [ create path config filesystem ]
+                    | false -> seq []
+            items
+            |> Seq.map (fun x -> getFiles x)
+            |> Seq.concat

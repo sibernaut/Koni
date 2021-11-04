@@ -18,9 +18,8 @@ module Preset =
     let apply preset input =
         Regex.Replace(input, preset.SearchFor, preset.ReplaceWith)
 
-module Presets =
-    let apply presets input =
-        let mutable output = input
-        presets
-        |> Seq.iter (fun p -> output <- Preset.apply p output)
-        output
+    module Collection =
+        let apply presets input =
+            let mutable output = input
+            presets |> Seq.iter (fun p -> output <- apply p output)
+            output

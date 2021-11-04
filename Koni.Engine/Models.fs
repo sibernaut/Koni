@@ -4,6 +4,8 @@
 
 namespace Koni.Engine
 
+open System.IO.Abstractions
+
 type PresetModel =
     { SearchFor: string
       ReplaceWith: string }
@@ -13,7 +15,9 @@ type BerkasExt = MKV | MP4 | Unsupported
 type ConfigModel = { Presets: PresetModel seq }
 
 type VideoFileModel =
-    { FilePath: string
+    { FileSystem: IFileSystem
+      Config: ConfigModel
+      FilePath: string
       FileName: string
       Extension: BerkasExt
       Title: string }
