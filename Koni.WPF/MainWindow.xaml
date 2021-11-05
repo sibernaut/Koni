@@ -50,7 +50,7 @@
         </Grid>
         <Grid Grid.Row="1">
             <Button HorizontalAlignment="Left" Command="ApplicationCommands.Print">_Presets</Button>
-            <Button HorizontalAlignment="Right" Command="ApplicationCommands.Save">_Start</Button>
+            <Button HorizontalAlignment="Right" Command="ApplicationCommands.Save" BorderBrush="#0078d7">_Start</Button>
         </Grid>
     </Grid>
 </Window>
