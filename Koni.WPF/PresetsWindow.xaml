@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Koni.WPF"
         mc:Ignorable="d"
         Title="Presets" Height="450" Width="800" 
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource WindowBg}">
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Save" CanExecute="Commands_CanExecute" Executed="SaveCommand_Executed"/>
     </Window.CommandBindings>

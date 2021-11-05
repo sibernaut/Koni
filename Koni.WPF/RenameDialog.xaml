@@ -7,20 +7,19 @@
         mc:Ignorable="d"
         Title="Rename" MinHeight="180" Width="500"
         SizeToContent="Height"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource WindowBg}">
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static local:RenameDialog.ResetCommand}" CanExecute="Commands_CanExecute" Executed="ResetCommand_Executed"/>
     </Window.CommandBindings>
-    <Grid>
+    <Grid Style="{StaticResource DialogGrid}">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <Label>Filename:</Label>
-            <Label x:Name="FilenameLabel" Content=""/>
-            <Label>Title:</Label>
-            <TextBox x:Name="TitleTextBox"/>
+            <TextBlock x:Name="FilenameLabel" TextWrapping="WrapWithOverflow" Margin="2,12"/>
+            <TextBox x:Name="TitleTextBox" TextWrapping="WrapWithOverflow"/>
         </StackPanel>
         <Grid Grid.Row="1">
             <Button Command="{x:Static local:RenameDialog.ResetCommand}" HorizontalAlignment="Left">_Reset</Button>

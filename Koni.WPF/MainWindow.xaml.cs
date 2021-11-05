@@ -60,14 +60,8 @@ namespace Koni.WPF
 
         private void StartCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var percent = 0;
             foreach (var item in queue.Items)
-            {
                 item.Save();
-                percent += 100 / queue.Items.Count;
-                CountStatusBar.Text = percent.ToString();
-            }
-            CountStatusBar.Text = "All files saved.";
         }
 
         private void PresetsCommand_Executed(object sender, ExecutedRoutedEventArgs e)

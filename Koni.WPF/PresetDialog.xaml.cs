@@ -15,6 +15,7 @@ namespace Koni.WPF
         {
             InitializeComponent();
             Title = "New Preset";
+            SearchFor.Focus();
         }
 
         public PresetDialog(string search, string replace)

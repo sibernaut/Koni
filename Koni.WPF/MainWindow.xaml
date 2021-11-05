@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Koni.WPF"
         mc:Ignorable="d"
         Title="Koni" Height="450" Width="600" 
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" 
+        Background="{StaticResource WindowBg}">
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Open" CanExecute="Commands_CanExecute" Executed="AddCommand_Executed"/>
         <CommandBinding Command="ApplicationCommands.Save" CanExecute="Commands_CanExecute" Executed="StartCommand_Executed"/>
@@ -19,15 +20,11 @@
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Button HorizontalAlignment="Left" Command="ApplicationCommands.Print">_Presets</Button>
-            <Button HorizontalAlignment="Right" Command="ApplicationCommands.Save">_Start</Button>
-        </Grid>
-        <ListBox x:Name="QueueView" Grid.Row="1" AllowDrop="True" Drop="ListBox_Drop" DragEnter="ListBox_DragEnter">
+        <ListBox x:Name="QueueView" Grid.Row="0" 
+                 AllowDrop="True" Drop="ListBox_Drop" DragEnter="ListBox_DragEnter">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -38,17 +35,21 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <TextBlock x:Name="Placeholder" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-            Drag file(s) and drop here
-        </TextBlock>
-        <StatusBar Grid.Row="2">
-            <StatusBarItem>
-                <TextBlock x:Name="CountStatusBar" Text="0 file"/>
-            </StatusBarItem>
-            <Separator/>
-            <StatusBarItem>
-                <TextBlock x:Name="PercentStatusBar"/>
-            </StatusBarItem>
-        </StatusBar>
+        <Grid x:Name="Placeholder" Grid.Row="0" Background="#f0f0f0"
+              AllowDrop="True" Drop="ListBox_Drop" DragEnter="ListBox_DragEnter">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock TextAlignment="Center">
+                    No files to process.
+                    <LineBreak/>
+                    You can drag &amp; drop files or folder here.
+                </TextBlock>
+                <TextBlock Margin="0,6" HorizontalAlignment="Center" Foreground="Gray">OR</TextBlock>
+                <Button Command="ApplicationCommands.Open">Browse...</Button>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Button HorizontalAlignment="Left" Command="ApplicationCommands.Print">_Presets</Button>
+            <Button HorizontalAlignment="Right" Command="ApplicationCommands.Save">_Start</Button>
+        </Grid>
     </Grid>
 </Window>

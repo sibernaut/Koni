@@ -20,7 +20,7 @@ namespace Koni.WPF
         {
             InitializeComponent();
             VideoFile = item;
-            FilenameLabel.Content = VideoFile.FileName;
+            FilenameLabel.Text = VideoFile.FileName;
             TitleTextBox.Text = VideoFile.Title;
             TitleTextBox.Focus();
             TitleTextBox.SelectAll();

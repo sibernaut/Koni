@@ -6,16 +6,17 @@
         xmlns:local="clr-namespace:Koni.WPF"
         mc:Ignorable="d"
         Title="PresetDialog" Height="180" Width="500"
-        WindowStartupLocation="CenterScreen">
-    <Grid>
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource WindowBg}">
+    <Grid Style="{StaticResource DialogGrid}">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <Label>Search for</Label>
+            <Label Target="{Binding ElementName=SearchFor}">S_earch for</Label>
             <TextBox x:Name="SearchFor"/>
-            <Label>Replace with</Label>
+            <Label Target="{Binding ElementName=ReplaceWith}">_Replace with</Label>
             <TextBox x:Name="ReplaceWith"/>
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
