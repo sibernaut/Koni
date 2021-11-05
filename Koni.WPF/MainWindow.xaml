@@ -28,9 +28,10 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <RadioButton IsChecked="{Binding IsSaved}"/>
                         <TextBlock Text="{Binding Title}" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding FileName}"/>
+                        <CheckBox IsChecked="{Binding IsSaved}" IsEnabled="False">
+                            <TextBlock Text="{Binding FileName}"/>
+                        </CheckBox>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
