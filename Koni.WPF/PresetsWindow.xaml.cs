@@ -13,12 +13,12 @@ namespace Koni.WPF
     /// </summary>
     public partial class PresetsWindow : Window
     {
-        Config config = new Config();
+        public Config Config;
         Presets presets;
-        public PresetsWindow()
+        public PresetsWindow(Config config)
         {
             InitializeComponent();
-            config.Load();
+            Config = config;
             presets = config.Presets;
             PresetsListBox.ItemsSource = presets.Items;
         }
@@ -28,10 +28,14 @@ namespace Koni.WPF
             e.CanExecute = true;
         }
 
-        private void SaveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void CloseCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void Window_Closing(object sender, System.EventArgs e)
         {
             DialogResult = true;
-            config.Save();
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -77,11 +81,6 @@ namespace Koni.WPF
         {
             if (PresetsListBox.SelectedIndex != -1 || PresetsListBox.SelectedIndex < PresetsListBox.Items.Count)
                 presets.MoveDown(PresetsListBox.SelectedIndex);
-        }
-
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
         }
     }
 }

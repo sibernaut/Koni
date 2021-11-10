@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         Title="Presets" Height="450" Width="800" 
         WindowStartupLocation="CenterScreen"
-        Background="{StaticResource WindowBg}">
+        Background="{StaticResource WindowBg}" Closing="Window_Closing">
     <Window.CommandBindings>
-        <CommandBinding Command="ApplicationCommands.Save" CanExecute="Commands_CanExecute" Executed="SaveCommand_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Stop" CanExecute="Commands_CanExecute" Executed="CloseCommand_Executed"/>
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -18,7 +18,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <ListBox x:Name="PresetsListBox" Grid.Row="0" Grid.Column="0">
             <ListBox.ItemTemplate>
@@ -30,16 +30,12 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <StackPanel Grid.Row="0" Grid.Column="1">
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2">
             <Button IsDefault="True" Click="AddButton_Click">_Add</Button>
             <Button Click="EditButton_Click">_Edit</Button>
             <Button Click="DeleteButton_Click">_Delete</Button>
             <Button Click="MoveUpButton_Click">Move _up</Button>
             <Button Click="MoveDownButton_Click">Move d_own</Button>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1" Grid.ColumnSpan="2">
-            <Button Command="ApplicationCommands.Save">_Save</Button>
-            <Button IsCancel="True" Click="CancelButton_Click">_Cancel</Button>
         </StackPanel>
     </Grid>
 </Window>

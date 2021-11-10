@@ -108,12 +108,13 @@ namespace Koni.WPF
 
         private void PresetsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var presetsWindow = new PresetsWindow();
+            var presetsWindow = new PresetsWindow(config);
             presetsWindow.Owner = this;
             if (presetsWindow.ShowDialog() == true)
             {
-                config.Load();
-                queue.UpdateConfig(config);
+                queue.UpdateConfig(presetsWindow.Config);
+                config = presetsWindow.Config;
+                config.Save();
             }
         }
 
