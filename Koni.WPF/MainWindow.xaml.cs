@@ -4,6 +4,7 @@
 
 using Koni.Engine.Wrapper;
 using Microsoft.Win32;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -24,74 +25,37 @@ namespace Koni.WPF
             QueueView.ItemsSource = queue.Items;
         }
 
-        public static RoutedUICommand ClearAllCommand = new(
-            "Clear All",
-            "ClearAll",
-            typeof(MainWindow),
-            new InputGestureCollection() {
-                new KeyGesture(Key.W, ModifierKeys.Control)
-            });
-
-        public static RoutedUICommand QuitCommand = new(
-            "Quit",
-            "Quit",
-            typeof(MainWindow),
-            new InputGestureCollection() { new KeyGesture(Key.Q, ModifierKeys.Control) });
-
-        public static RoutedUICommand RenameCommand = new(
-            "Rename",
-            "Rename",
-            typeof(MainWindow),
-            new InputGestureCollection() {
-                new KeyGesture(Key.E, ModifierKeys.Control),
-                new KeyGesture(Key.F2)
-            });
-
-        public static RoutedUICommand RefreshCommand = new(
-            "Refresh",
-            "Refresh",
-            typeof(MainWindow),
-            new InputGestureCollection() { new KeyGesture(Key.R, ModifierKeys.Control) });
-
-        private void Commands_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        private void AvailableCommands_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
         }
 
-        private void StartCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void FilledListCommands_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            foreach (var item in queue.Items)
-                item.Save();
+            if (QueueView.Items.Count > 0)
+                e.CanExecute = true;
+            else
+                e.CanExecute = false;
         }
 
-        private void PresetsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void SelectedOneCommands_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            var presetsWindow = new PresetsWindow();
-            if (presetsWindow.ShowDialog() == true)
-            {
-                config.Load();
-                queue.UpdateConfig(config);
-            }
+            if (QueueView.SelectedItem != null && QueueView.SelectedItems.Count == 1)
+                e.CanExecute = true;
+            else
+                e.CanExecute = false;
         }
 
-        private void DeleteCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void SelectedItemCommands_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            queue.Delete(QueueView.SelectedIndex);
-        }
-
-        private void QuitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            Close();
-        }
-
-        private void ListBox_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Effects = DragDropEffects.Scroll;
+            if (QueueView.SelectedItem != null)
+                e.CanExecute = true;
+            else
+                e.CanExecute = false;
         }
 
         private void ListBox_Drop(object sender, DragEventArgs e)
         {
-            Placeholder.Visibility = Visibility.Hidden;
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 var dropItems = e.Data.GetData(DataFormats.FileDrop) as string[];
@@ -99,34 +63,40 @@ namespace Koni.WPF
             }
         }
 
-        private void ClearAllCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            queue.ClearAll();
-        }
-
         private void AddCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var openFileDialog = new OpenFileDialog()
             {
-                Filter = "Video files(*.mp4;*.mkv)|*.mp4;*.mkv",
+                Filter = 
+                    "Video files (*.mp4;*.mkv)|*.mp4;*.mkv|MP4 files (*.mp4)|*.mp4|Matroska files (*.mkv)|*.mkv",
                 Multiselect = true
             };
+
             if (openFileDialog.ShowDialog() == true)
-            {
-                Placeholder.Visibility = Visibility.Hidden;
-                var items = openFileDialog.FileNames;
-                queue.Add(items);
-            }
+                queue.Add(openFileDialog.FileNames);
+        }
+
+        private void DeleteCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var selectedItems = QueueView.SelectedItems.Cast<VideoFile>().ToList();
+            foreach (var item in selectedItems)
+                queue.Remove(item);
+        }
+
+        private void ClearAllCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            queue.ClearAll();
         }
 
         private void RenameCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var index = QueueView.SelectedIndex;
             var item = QueueView.SelectedItem as VideoFile;
-            var dialog = new RenameDialog(item);
-            if (dialog.ShowDialog() == true)
+            var renameDialog = new RenameDialog(item);
+            renameDialog.Owner = this;
+            if (renameDialog.ShowDialog() == true)
             {
-                var title = dialog.RenamedTitle;
+                var title = renameDialog.RenamedTitle;
                 queue.Rename(index, title);
             }
         }
@@ -135,5 +105,63 @@ namespace Koni.WPF
         {
             queue.ResetItems();
         }
+
+        private void PresetsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var presetsWindow = new PresetsWindow();
+            presetsWindow.Owner = this;
+            if (presetsWindow.ShowDialog() == true)
+            {
+                config.Load();
+                queue.UpdateConfig(config);
+            }
+        }
+
+        private void StartCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            foreach (var item in queue.Items)
+                item.Save();
+        }
+
+        private void QuitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Close();
+        }
+    }
+
+    public class MainWindowCommands
+    {
+        public static RoutedUICommand Rename = new(
+            "Rename item",
+            "Rename",
+            typeof(MainWindow),
+            new InputGestureCollection() {
+                new KeyGesture(Key.E, ModifierKeys.Control),
+                new KeyGesture(Key.F2)
+            });
+
+        public static RoutedUICommand Refresh = new(
+            "Refresh items",
+            "Refresh",
+            typeof(MainWindow),
+            new InputGestureCollection() { new KeyGesture(Key.R, ModifierKeys.Control) });
+
+        public static RoutedUICommand ClearAll = new(
+            "Clear all items",
+            "ClearAll",
+            typeof(MainWindow),
+            new InputGestureCollection() { new KeyGesture(Key.W, ModifierKeys.Control) });
+
+        public static RoutedUICommand Presets = new(
+            "Open presets list",
+            "Presets",
+            typeof(MainWindow),
+            new InputGestureCollection() { new KeyGesture(Key.OemComma, ModifierKeys.Control) });
+
+        public static RoutedUICommand Quit = new(
+            "Quit program",
+            "Quit",
+            typeof(MainWindow),
+            new InputGestureCollection() { new KeyGesture(Key.Q, ModifierKeys.Control) });
     }
 }

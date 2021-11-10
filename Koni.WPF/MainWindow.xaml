@@ -1,43 +1,31 @@
-﻿<Window x:Class="Koni.WPF.MainWindow"
+﻿    <Window x:Class="Koni.WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Koni.WPF"
         mc:Ignorable="d"
-        Title="Koni" Height="450" Width="600" 
+        Title="Koni" 
+        MinHeight="450" MinWidth="600"
+        Height="450" Width="600"
         WindowStartupLocation="CenterScreen" 
         Background="{StaticResource WindowBg}">
     <Window.CommandBindings>
-        <CommandBinding Command="ApplicationCommands.Open" CanExecute="Commands_CanExecute" Executed="AddCommand_Executed"/>
-        <CommandBinding Command="ApplicationCommands.Save" CanExecute="Commands_CanExecute" Executed="StartCommand_Executed"/>
-        <CommandBinding Command="ApplicationCommands.Print" CanExecute="Commands_CanExecute" Executed="PresetsCommand_Executed"/>
-        <CommandBinding Command="ApplicationCommands.Delete" CanExecute="Commands_CanExecute" Executed="DeleteCommand_Executed"/>
-        <CommandBinding Command="{x:Static local:MainWindow.QuitCommand}" CanExecute="Commands_CanExecute" Executed="QuitCommand_Executed"/>
-        <CommandBinding Command="{x:Static local:MainWindow.ClearAllCommand}" CanExecute="Commands_CanExecute" Executed="ClearAllCommand_Executed"/>
-        <CommandBinding Command="{x:Static local:MainWindow.RenameCommand}" CanExecute="Commands_CanExecute" Executed="RenameCommand_Executed"/>
-        <CommandBinding Command="{x:Static local:MainWindow.RefreshCommand}" CanExecute="Commands_CanExecute" Executed="RefreshCommand_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Open" CanExecute="AvailableCommands_CanExecute" Executed="AddCommand_Executed"/>
+        <CommandBinding Command="{x:Static local:MainWindowCommands.Refresh}" CanExecute="FilledListCommands_CanExecute" Executed="RefreshCommand_Executed"/>
+        <CommandBinding Command="{x:Static local:MainWindowCommands.Rename}" CanExecute="SelectedOneCommands_CanExecute" Executed="RenameCommand_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Delete" CanExecute="SelectedItemCommands_CanExecute" Executed="DeleteCommand_Executed"/>
+        <CommandBinding Command="{x:Static local:MainWindowCommands.ClearAll}" CanExecute="FilledListCommands_CanExecute" Executed="ClearAllCommand_Executed"/>
+        <CommandBinding Command="{x:Static local:MainWindowCommands.Presets}" CanExecute="AvailableCommands_CanExecute" Executed="PresetsCommand_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Save" CanExecute="FilledListCommands_CanExecute" Executed="StartCommand_Executed"/>
+        <CommandBinding Command="{x:Static local:MainWindowCommands.Quit}" CanExecute="AvailableCommands_CanExecute" Executed="QuitCommand_Executed"/>
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ListBox x:Name="QueueView" Grid.Row="0" 
-                 AllowDrop="True" Drop="ListBox_Drop" DragEnter="ListBox_DragEnter">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Title}" FontWeight="Bold"/>
-                        <CheckBox IsChecked="{Binding IsSaved}" IsEnabled="False">
-                            <TextBlock Text="{Binding FileName}"/>
-                        </CheckBox>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <Grid x:Name="Placeholder" Grid.Row="0" Background="#f0f0f0"
-              AllowDrop="True" Drop="ListBox_Drop" DragEnter="ListBox_DragEnter">
+        <Grid Background="Transparent" AllowDrop="True" Drop="ListBox_Drop">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock TextAlignment="Center">
                     No files to process.
@@ -48,9 +36,47 @@
                 <Button Command="ApplicationCommands.Open">Browse...</Button>
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="1">
-            <Button HorizontalAlignment="Left" Command="ApplicationCommands.Print">_Presets</Button>
-            <Button HorizontalAlignment="Right" Command="ApplicationCommands.Save" BorderBrush="#0078d7">_Start</Button>
+        <ListBox x:Name="QueueView" SelectionMode="Extended" AllowDrop="True" Drop="ListBox_Drop">
+            <ListBox.Style>
+                <Style TargetType="ListBox">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding HasItems, RelativeSource={RelativeSource Self}}" Value="False">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.Style>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox IsChecked="{Binding IsSaved}" VerticalAlignment="Center" IsEnabled="False">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Title}" FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding FileName}" Foreground="#6c6c6c"/>
+                        </StackPanel>
+                    </CheckBox>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Grid Grid.Row="1" Style="{StaticResource BottomGrid}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" HorizontalAlignment="Left">
+                <Button Content="_Open" Command="ApplicationCommands.Open"/>
+                <Button Content="_Refresh" Command="{x:Static local:MainWindowCommands.Refresh}"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                <Button Content="R_ename" Command="{x:Static local:MainWindowCommands.Rename}"/>
+                <Button Content="_Delete" Command="ApplicationCommands.Delete"/>
+                <Button Content="_Clear All" Command="{x:Static local:MainWindowCommands.ClearAll}"/>
+            </StackPanel>
+            <StackPanel Grid.Column="2" HorizontalAlignment="Right">
+                <Button Content="_Presets" Command="{x:Static local:MainWindowCommands.Presets}"/>
+                <Button Content="_Start" Command="ApplicationCommands.Save" BorderBrush="#0078d7"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>

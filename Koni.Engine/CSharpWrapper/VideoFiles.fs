@@ -49,6 +49,7 @@ type VideoFiles(config: Config, filesystem) =
     member this.Rename(index, title) =
         if index <> -1 then
             _items.[index].Title <- title
+    member this.Remove(item) = _items.Remove(item)
     member this.Delete(index) =
         if index <> -1 then
             _items.RemoveAt(index)
