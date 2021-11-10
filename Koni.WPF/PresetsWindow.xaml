@@ -9,7 +9,21 @@
         WindowStartupLocation="CenterScreen"
         Background="{StaticResource WindowBg}" Closing="Window_Closing">
     <Window.CommandBindings>
-        <CommandBinding Command="ApplicationCommands.Stop" CanExecute="Commands_CanExecute" Executed="CloseCommand_Executed"/>
+        <CommandBinding Command="ApplicationCommands.New" 
+                        CanExecute="Commands_CanExecute" 
+                        Executed="NewCommand_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Delete" 
+                        CanExecute="DeleteCommand_CanExecute" 
+                        Executed="DeleteCommand_Executed"/>
+        <CommandBinding Command="{x:Static local:PresetsWindowCommands.MoveUp}" 
+                        CanExecute="MoveUpCommand_CanExecuted" 
+                        Executed="MoveUpCommand_Executed"/>
+        <CommandBinding Command="{x:Static local:PresetsWindowCommands.MoveDown}" 
+                        CanExecute="MoveDownCommand_CanExecuted" 
+                        Executed="MoveDownCommand_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Stop" 
+                        CanExecute="Commands_CanExecute" 
+                        Executed="CloseCommand_Executed"/>
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -17,8 +31,8 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1.5*"/>
         </Grid.ColumnDefinitions>
         <ListBox x:Name="PresetsListBox" Grid.Row="0" Grid.Column="0">
             <ListBox.ItemTemplate>
@@ -30,12 +44,25 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2">
-            <Button IsDefault="True" Click="AddButton_Click">_Add</Button>
-            <Button Click="EditButton_Click">_Edit</Button>
-            <Button Click="DeleteButton_Click">_Delete</Button>
-            <Button Click="MoveUpButton_Click">Move _up</Button>
-            <Button Click="MoveDownButton_Click">Move d_own</Button>
+        <StackPanel Grid.Row="0" Grid.Column="1">
+            <Label Content="_Search for" Target="{Binding ElementName=SearchFor}"/>
+            <TextBox x:Name="SearchFor" 
+                     DataContext="{Binding ElementName=PresetsListBox, Path=SelectedItem}" 
+                     Text="{Binding SearchFor}"/>
+            <Label Content="_Replace with" Target="{Binding ElementName=ReplaceWith}"/>
+            <TextBox x:Name="ReplaceWith" 
+                     DataContext="{Binding ElementName=PresetsListBox, Path=SelectedItem}" 
+                     Text="{Binding ReplaceWith}"/>
+            <Button Content="Delete" 
+                    Command="ApplicationCommands.Delete" 
+                    Width="80" HorizontalAlignment="Left"/>
         </StackPanel>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Button Content="_New preset" Command="ApplicationCommands.New" HorizontalAlignment="Left"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Move up" Command="{x:Static local:PresetsWindowCommands.MoveUp}"/>
+                <Button Content="Move down" Command="{x:Static local:PresetsWindowCommands.MoveDown}"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

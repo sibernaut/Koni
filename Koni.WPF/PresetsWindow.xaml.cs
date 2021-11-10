@@ -3,6 +3,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using Koni.Engine.Wrapper;
+using System;
 using System.Windows;
 using System.Windows.Input;
 
@@ -28,6 +29,54 @@ namespace Koni.WPF
             e.CanExecute = true;
         }
 
+        private void NewCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            presets.Add("New Search", "New Preset");
+            PresetsListBox.SelectedIndex = presets.Items.Count - 1;
+            SearchFor.Focus();
+            SearchFor.SelectAll();
+            ReplaceWith.SelectAll();
+        }
+
+        private void DeleteCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (PresetsListBox.SelectedIndex != -1)
+                e.CanExecute = true;
+            else
+                e.CanExecute = false;
+        }
+
+        private void DeleteCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            presets.Delete(PresetsListBox.SelectedIndex);
+        }
+
+        private void MoveUpCommand_CanExecuted(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (PresetsListBox.SelectedIndex > 0)
+                e.CanExecute = true;
+            else
+                e.CanExecute = false;
+        }
+
+        private void MoveUpCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            presets.MoveUp(PresetsListBox.SelectedIndex);
+        }
+
+        private void MoveDownCommand_CanExecuted(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (PresetsListBox.SelectedIndex != -1 && PresetsListBox.SelectedIndex < PresetsListBox.Items.Count - 1)
+                e.CanExecute = true;
+            else
+                e.CanExecute = false;
+        }
+
+        private void MoveDownCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            presets.MoveDown(PresetsListBox.SelectedIndex);
+        }
+
         private void CloseCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             Close();
@@ -37,50 +86,20 @@ namespace Koni.WPF
         {
             DialogResult = true;
         }
+    }
 
-        private void AddButton_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new PresetDialog();
-            if (dialog.ShowDialog() == true)
-            {
-                var search = dialog.SearchFor.Text;
-                var replace = dialog.ReplaceWith.Text;
-                presets.Add(search, replace);
-            }
-        }
+    class PresetsWindowCommands
+    {
+        public static RoutedUICommand MoveUp = new(
+            "Move up item",
+            "MoveUp",
+            typeof(PresetsWindow),
+            new InputGestureCollection() { new KeyGesture(Key.Up, ModifierKeys.Alt) });
 
-        private void EditButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (PresetsListBox.SelectedIndex != -1)
-            {
-                var index = PresetsListBox.SelectedIndex;
-                var item = PresetsListBox.SelectedItem as Preset;
-                var dialog = new PresetDialog(item.SearchFor, item.ReplaceWith);
-                if (dialog.ShowDialog() == true)
-                {
-                    var search = dialog.SearchFor.Text;
-                    var replace = dialog.ReplaceWith.Text;
-                    presets.Update(index, search, replace);
-                }
-            }
-        }
-
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (PresetsListBox.SelectedIndex != -1)
-                presets.Delete(PresetsListBox.SelectedIndex);
-        }
-
-        private void MoveUpButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (PresetsListBox.SelectedIndex != -1 || PresetsListBox.SelectedIndex != 0)
-                presets.MoveUp(PresetsListBox.SelectedIndex);
-        }
-
-        private void MoveDownButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (PresetsListBox.SelectedIndex != -1 || PresetsListBox.SelectedIndex < PresetsListBox.Items.Count)
-                presets.MoveDown(PresetsListBox.SelectedIndex);
-        }
+        public static RoutedUICommand MoveDown = new(
+            "Move down item",
+            "MoveDown",
+            typeof(PresetsWindow),
+            new InputGestureCollection() { new KeyGesture(Key.Down, ModifierKeys.Alt) });
     }
 }
