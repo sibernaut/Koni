@@ -15,8 +15,8 @@ namespace Koni.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        Config config = new Config();
-        VideoFiles queue;
+        Config config = new();
+        public VideoFiles queue;
         public MainWindow()
         {
             InitializeComponent();
@@ -28,14 +28,6 @@ namespace Koni.WPF
         private void AvailableCommands_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
-        }
-
-        private void FilledListCommands_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            if (QueueView.Items.Count > 0)
-                e.CanExecute = true;
-            else
-                e.CanExecute = false;
         }
 
         private void SelectedOneCommands_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -136,10 +128,7 @@ namespace Koni.WPF
             "Rename item",
             "Rename",
             typeof(MainWindow),
-            new InputGestureCollection() {
-                new KeyGesture(Key.E, ModifierKeys.Control),
-                new KeyGesture(Key.F2)
-            });
+            new InputGestureCollection() { new KeyGesture(Key.F2) });
 
         public static RoutedUICommand Refresh = new(
             "Refresh items",
@@ -153,9 +142,9 @@ namespace Koni.WPF
             typeof(MainWindow),
             new InputGestureCollection() { new KeyGesture(Key.W, ModifierKeys.Control) });
 
-        public static RoutedUICommand Presets = new(
-            "Open presets list",
-            "Presets",
+        public static RoutedUICommand Settings = new(
+            "Open settings",
+            "Settings",
             typeof(MainWindow),
             new InputGestureCollection() { new KeyGesture(Key.OemComma, ModifierKeys.Control) });
 
