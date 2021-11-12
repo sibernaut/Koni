@@ -5,27 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Koni.WPF"
         mc:Ignorable="d"
-        Title="Rename" MinHeight="180" Width="500"
-        SizeToContent="Height"
-        WindowStartupLocation="CenterScreen"
+        Title="Rename" 
+        MinHeight="200" MinWidth="400"
+        Height="200" Width="400"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
         Background="{StaticResource WindowBg}">
-    <Window.CommandBindings>
-        <CommandBinding Command="{x:Static local:RenameDialog.ResetCommand}" CanExecute="Commands_CanExecute" Executed="ResetCommand_Executed"/>
-    </Window.CommandBindings>
-    <Grid Style="{StaticResource DialogGrid}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <TextBlock x:Name="FilenameLabel" TextWrapping="WrapWithOverflow" Margin="2,12"/>
-            <TextBox x:Name="TitleTextBox" TextWrapping="WrapWithOverflow"/>
+            <Label Content="Filename:"/>
+            <TextBlock x:Name="FilenameLabel" TextWrapping="WrapWithOverflow"/>
+            <Label Content="_Title:" Target="{Binding ElementName=TitleTextBox}"/>
+            <TextBox x:Name="TitleTextBox"/>
         </StackPanel>
-        <Grid Grid.Row="1">
-            <Button Command="{x:Static local:RenameDialog.ResetCommand}" HorizontalAlignment="Left">_Reset</Button>
+        <Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="LightGray"/>
+        <Grid Grid.Row="2" Style="{StaticResource BottomGrid}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button IsDefault="True" Click="SaveButton_Click">_Save</Button>
-                <Button IsCancel="True" Click="CancelButton_Click">_Cancel</Button>
+                <Button Content="_Save" IsDefault="True" Click="SaveButton_Click"/>
+                <Button Content="_Cancel" IsCancel="True" Click="CancelButton_Click"/>
             </StackPanel>
         </Grid>
     </Grid>

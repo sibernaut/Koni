@@ -23,9 +23,11 @@
             <TextBox x:Name="ReplaceTextBox" TextWrapping="WrapWithOverflow"/>
         </StackPanel>
         <Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="LightGray"/>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2">
-            <Button x:Name="SaveButton" Content="_Save" Click="SaveButton_Click"/>
-            <Button x:Name="CancelButton" Content="_Cancel" IsCancel="True" Click="CancelButton_Click"/>
-        </StackPanel>
+        <Grid Grid.Row="2" Style="{StaticResource BottomGrid}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="SaveButton" Content="_Save" Click="SaveButton_Click"/>
+                <Button x:Name="CancelButton" Content="_Cancel" IsCancel="True" Click="CancelButton_Click"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

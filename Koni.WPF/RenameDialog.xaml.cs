@@ -13,42 +13,26 @@ namespace Koni.WPF
     /// </summary>
     public partial class RenameDialog : Window
     {
-        private VideoFile VideoFile;
         public string RenamedTitle;
 
         public RenameDialog(VideoFile item)
         {
             InitializeComponent();
-            VideoFile = item;
-            FilenameLabel.Text = VideoFile.FileName;
-            TitleTextBox.Text = VideoFile.Title;
-            TitleTextBox.Focus();
+            FilenameLabel.Text = item.FileName;
+            TitleTextBox.Text = item.Title;
             TitleTextBox.SelectAll();
-        }
-
-        public static RoutedUICommand ResetCommand = new("Reset", "Reset", typeof(RenameDialog));
-
-        private void Commands_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-
-        private void ResetCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            VideoFile.Reset();
-            Close();
+            TitleTextBox.Focus();
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = true;
             RenamedTitle = TitleTextBox.Text;
-            Close();
+            DialogResult = true;
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            DialogResult = false;
         }
     }
 }
