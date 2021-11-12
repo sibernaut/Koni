@@ -93,6 +93,12 @@ namespace Koni.WPF
             }
         }
 
+        private void ResetCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var selected = QueueView.SelectedItem as VideoFile;
+            selected.Reset();
+        }
+
         private void RefreshCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             config.Load();
@@ -126,6 +132,12 @@ namespace Koni.WPF
             "Rename",
             typeof(MainWindow),
             new InputGestureCollection() { new KeyGesture(Key.F2) });
+
+        public static RoutedUICommand Reset = new(
+            "Reset item",
+            "Reset",
+            typeof(MainWindow),
+            new InputGestureCollection() { new KeyGesture(Key.Back, ModifierKeys.Control) });
 
         public static RoutedUICommand Refresh = new(
             "Refresh items",

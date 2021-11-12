@@ -45,8 +45,9 @@
         </Grid>
         <ListView x:Name="QueueView" Grid.Row="1" AllowDrop="True" Drop="ListBox_Drop">
             <ListView.CommandBindings>
-                <CommandBinding Command="{x:Static local:MainWindowCommands.Refresh}" CanExecute="AvailableCommands_CanExecute" Executed="RefreshCommand_Executed"/>
                 <CommandBinding Command="{x:Static local:MainWindowCommands.Rename}" CanExecute="SelectedOneCommands_CanExecute" Executed="RenameCommand_Executed"/>
+                <CommandBinding Command="{x:Static local:MainWindowCommands.Reset}" CanExecute="SelectedOneCommands_CanExecute" Executed="ResetCommand_Executed"/>
+                <CommandBinding Command="{x:Static local:MainWindowCommands.Refresh}" CanExecute="AvailableCommands_CanExecute" Executed="RefreshCommand_Executed"/>
                 <CommandBinding Command="ApplicationCommands.Delete" CanExecute="SelectedItemCommands_CanExecute" Executed="DeleteCommand_Executed"/>
                 <CommandBinding Command="{x:Static local:MainWindowCommands.ClearAll}" CanExecute="AvailableCommands_CanExecute" Executed="ClearAllCommand_Executed"/>
             </ListView.CommandBindings>
@@ -85,7 +86,7 @@
                         <Setter.Value>
                             <ContextMenu>
                                 <MenuItem Header="Rename" Command="{x:Static local:MainWindowCommands.Rename}"/>
-                                <MenuItem Header="Reset"/>
+                                <MenuItem Header="Reset" Command="{x:Static local:MainWindowCommands.Reset}"/>
                                 <Separator/>
                                 <MenuItem Header="Refresh" Command="{x:Static local:MainWindowCommands.Refresh}"/>
                                 <Separator/>
