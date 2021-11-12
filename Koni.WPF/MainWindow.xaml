@@ -36,7 +36,7 @@
                 <Button Content="_Start" Command="ApplicationCommands.Save" IsDefault="True"/>
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="1" AllowDrop="True" Drop="ListBox_Drop">
+        <Grid Grid.Row="1" Background="Transparent" AllowDrop="True" Drop="ListBox_Drop">
             <TextBlock TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">
                 No files to process.
                 <LineBreak/>
