@@ -72,9 +72,17 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <CheckBox IsChecked="{Binding IsSaved}" IsEnabled="False" Grid.ColumnSpan="2">
-                            <TextBlock Text="{Binding Title}" FontWeight="SemiBold" TextWrapping="WrapWithOverflow"/>
-                        </CheckBox>
+                        <TextBlock Text="{Binding Title}" FontWeight="SemiBold" TextWrapping="WrapWithOverflow" Grid.ColumnSpan="2">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsSaved}" Value="True">
+                                            <Setter Property="Foreground" Value="LightGreen"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                         <TextBlock Text="Filename:" Foreground="#6c6c6c" Grid.Column="0" Grid.Row="1"/>
                         <TextBlock Text="{Binding FileName}" Grid.Column="1" Grid.Row="1" TextWrapping="WrapWithOverflow"/>
                     </Grid>
