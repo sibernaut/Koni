@@ -4,6 +4,8 @@
 
 using Koni.Engine.Wrapper;
 using Microsoft.Win32;
+using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -113,10 +115,23 @@ namespace Koni.WPF
             settingsWindow.Show();
         }
 
-        private void StartCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void StartCommand_DoWork(object sender, DoWorkEventArgs e)
         {
             foreach (var item in queue.Items)
                 item.Save();
+        }
+
+        private void StartCommand_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            MessageBox.Show("All files successfully processed.");
+        }
+
+        private void StartCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var worker = new BackgroundWorker();
+            worker.DoWork += StartCommand_DoWork;
+            worker.RunWorkerCompleted += StartCommand_RunWorkerCompleted;
+            worker.RunWorkerAsync();
         }
 
         private void QuitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
