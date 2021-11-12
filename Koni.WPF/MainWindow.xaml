@@ -12,7 +12,7 @@
         Background="{StaticResource WindowBg}">
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Open" CanExecute="AvailableCommands_CanExecute" Executed="AddCommand_Executed"/>
-        <CommandBinding Command="{x:Static local:MainWindowCommands.Settings}" CanExecute="AvailableCommands_CanExecute" Executed="PresetsCommand_Executed"/>
+        <CommandBinding Command="{x:Static local:MainWindowCommands.Settings}" CanExecute="AvailableCommands_CanExecute" Executed="SettingsCommand_Executed"/>
         <CommandBinding Command="ApplicationCommands.Save" CanExecute="AvailableCommands_CanExecute" Executed="StartCommand_Executed"/>
         <CommandBinding Command="{x:Static local:MainWindowCommands.Quit}" CanExecute="AvailableCommands_CanExecute" Executed="QuitCommand_Executed"/>
     </Window.CommandBindings>

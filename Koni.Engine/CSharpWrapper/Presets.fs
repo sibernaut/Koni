@@ -10,12 +10,8 @@ open Koni.Engine
 type Preset(search, replace) = 
     let mutable _item = Preset.create search replace
     member this.Item = _item
-    member this.SearchFor
-        with get() = _item.SearchFor
-        and set(value) = _item <- Preset.updateSearch _item value
-    member this.ReplaceWith
-        with get() = _item.ReplaceWith
-        and set(value) = _item <- Preset.updateReplace _item value
+    member this.SearchFor = _item.SearchFor
+    member this.ReplaceWith = _item.ReplaceWith
     static member Default = 
         let item = Preset.defaultPreset
         new Preset(item.SearchFor, item.ReplaceWith)
@@ -25,8 +21,8 @@ type Presets() =
     let _items' = _items |> Seq.map (fun i -> Preset.create i.SearchFor i.ReplaceWith)
     member this.Items = _items
     member this.Apply(input) = Preset.Collection.apply _items' input
-    member this.Add(search, replace) = _items.Add(Preset(search, replace))
-    member this.Update(index, search, replace) = _items.[index] <- Preset(search, replace)
-    member this.Delete(index) = _items.RemoveAt(index)
+    member this.Add(preset) = _items.Add(preset)
+    member this.Update(index, preset) = _items.[index] <- preset
+    member this.Remove(item) = _items.Remove(item)
     member this.MoveUp(index) = if not (index = 0) then _items.Move(index, index - 1)
     member this.MoveDown(index) = if not (index = _items.Count - 1) then _items.Move(index, index + 1)

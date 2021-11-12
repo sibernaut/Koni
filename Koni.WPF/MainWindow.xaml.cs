@@ -95,19 +95,16 @@ namespace Koni.WPF
 
         private void RefreshCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            config.Load();
+            queue.UpdateConfig(config);
             queue.ResetItems();
         }
 
-        private void PresetsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void SettingsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var presetsWindow = new PresetsWindow(config);
-            presetsWindow.Owner = this;
-            if (presetsWindow.ShowDialog() == true)
-            {
-                queue.UpdateConfig(presetsWindow.Config);
-                config = presetsWindow.Config;
-                config.Save();
-            }
+            var settingsWindow = new SettingsWindow();
+            settingsWindow.Owner = this;
+            settingsWindow.Show();
         }
 
         private void StartCommand_Executed(object sender, ExecutedRoutedEventArgs e)

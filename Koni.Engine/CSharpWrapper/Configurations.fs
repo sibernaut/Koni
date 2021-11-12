@@ -22,6 +22,6 @@ type Config(filesystem: IFileSystem) =
     member this.Load() =
         _item <- Configuration.load _filesystem
         this.Presets <- new Presets()
-        _item.Presets |> Seq.iter (fun p -> this.Presets.Add(p.SearchFor, p.ReplaceWith))
+        _item.Presets |> Seq.iter (fun p -> this.Presets.Add(new Preset(p.SearchFor, p.ReplaceWith)))
 
     new() = Config(new FileSystem())
