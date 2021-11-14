@@ -19,5 +19,6 @@ type VideoFileModel =
       Config: ConfigModel
       FilePath: string
       FileName: string
+      Folder: string
       Extension: BerkasExt
       Title: string }

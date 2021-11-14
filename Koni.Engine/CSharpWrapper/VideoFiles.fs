@@ -20,6 +20,7 @@ type VideoFile(item) =
 
     member this.Path = _item.FilePath
     member this.FileName = _item.FileName
+    member this.Folder = _item.Folder
     member this.Title 
         with get() = _item.Title
         and set(value) = 

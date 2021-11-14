@@ -23,6 +23,7 @@ module VideoFile =
           Config = config
           FilePath = path
           FileName = filesystem.Path.GetFileName(path)
+          Folder = filesystem.Path.GetDirectoryName(path)
           Extension = ext
           Title = title }
     let updateConfig item config = { item with Config = config }
