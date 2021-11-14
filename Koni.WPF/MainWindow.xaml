@@ -43,7 +43,7 @@
                 You can drag file(s)/folder and drop here.
             </TextBlock>
         </Grid>
-        <ListView x:Name="QueueView" Grid.Row="1" AllowDrop="True" Drop="ListBox_Drop">
+        <ListView x:Name="QueueView" Grid.Row="1" AllowDrop="True" Drop="ListBox_Drop" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListView.CommandBindings>
                 <CommandBinding Command="{x:Static local:MainWindowCommands.Rename}" CanExecute="SelectedOneCommands_CanExecute" Executed="RenameCommand_Executed"/>
                 <CommandBinding Command="{x:Static local:MainWindowCommands.Reset}" CanExecute="SelectedOneCommands_CanExecute" Executed="ResetCommand_Executed"/>
