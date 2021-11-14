@@ -73,12 +73,13 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="{Binding Title}" FontWeight="SemiBold" TextWrapping="WrapWithOverflow" Grid.ColumnSpan="2">
+                        <TextBlock FontWeight="SemiBold" TextWrapping="WrapWithOverflow" Grid.ColumnSpan="2">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
+                                    <Setter Property="Text" Value="{Binding Title}"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsSaved}" Value="True">
-                                            <Setter Property="Foreground" Value="LightGreen"/>
+                                            <Setter Property="Text" Value="{Binding Title, StringFormat={}{0}✔}"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
