@@ -27,5 +27,8 @@ type VideoFiles(config: Config, filesystem) =
             _items.[index] <- Video.updateTitle _items.[index] title
     member this.Remove(item) = _items.Remove(item)
     member this.ClearAll() = _items.Clear()
+    member this.Save() = 
+        for i in 0.._items.Count - 1 do
+            _items.[i] <- Video.save _items.[i] this.FileSystem
 
     new(config) = VideoFiles(config, new FileSystem())

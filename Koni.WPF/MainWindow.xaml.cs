@@ -4,8 +4,6 @@
 
 using Koni.Engine;
 using Microsoft.Win32;
-using System;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -116,23 +114,9 @@ namespace Koni.WPF
             settingsWindow.Show();
         }
 
-        private void StartCommand_DoWork(object sender, DoWorkEventArgs e)
-        {
-            foreach (var item in queue.Items)
-                VideoModule.save(item, queue.FileSystem);
-        }
-
-        private void StartCommand_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            MessageBox.Show("All files successfully processed.");
-        }
-
         private void StartCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var worker = new BackgroundWorker();
-            worker.DoWork += StartCommand_DoWork;
-            worker.RunWorkerCompleted += StartCommand_RunWorkerCompleted;
-            worker.RunWorkerAsync();
+            queue.Save();
         }
 
         private void QuitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
