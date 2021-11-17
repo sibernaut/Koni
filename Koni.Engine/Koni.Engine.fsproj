@@ -9,13 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Models.fs" />
     <Compile Include="Preset.fs" />
     <Compile Include="Configuration.fs" />
-    <Compile Include="VideoFile.fs" />
-    <Compile Include="CSharpWrapper\Presets.fs" />
-    <Compile Include="CSharpWrapper\Configurations.fs" />
-    <Compile Include="CSharpWrapper\VideoFiles.fs" />
+    <Compile Include="Video.fs" />
+    <Compile Include="ConfigurationViewModel.fs" />
+    <Compile Include="VideoViewModel.fs" />
   </ItemGroup>
 
   <ItemGroup>

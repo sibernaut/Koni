@@ -2,7 +2,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-using Koni.Engine.Wrapper;
+using Koni.Engine;
 using System.Windows;
 using System.Windows.Input;
 
@@ -15,7 +15,7 @@ namespace Koni.WPF
     {
         public string RenamedTitle;
 
-        public RenameDialog(VideoFile item)
+        public RenameDialog(Video item)
         {
             InitializeComponent();
             FilenameLabel.Text = item.FileName;

@@ -2,7 +2,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-using Koni.Engine.Wrapper;
+using Koni.Engine;
 using Microsoft.Win32;
 using System;
 using System.ComponentModel;
@@ -72,7 +72,7 @@ namespace Koni.WPF
 
         private void DeleteCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var selectedItems = QueueView.SelectedItems.Cast<VideoFile>().ToList();
+            var selectedItems = QueueView.SelectedItems.Cast<Video>().ToList();
             foreach (var item in selectedItems)
                 queue.Remove(item);
         }
@@ -85,7 +85,7 @@ namespace Koni.WPF
         private void RenameCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var index = QueueView.SelectedIndex;
-            var item = QueueView.SelectedItem as VideoFile;
+            var item = QueueView.SelectedItem as Video;
             var renameDialog = new RenameDialog(item);
             renameDialog.Owner = this;
             if (renameDialog.ShowDialog() == true)
@@ -97,8 +97,9 @@ namespace Koni.WPF
 
         private void ResetCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var selected = QueueView.SelectedItem as VideoFile;
-            selected.Reset();
+            config.Load();
+            queue.UpdateConfig(config);
+            queue.ResetItem(QueueView.SelectedIndex);
         }
 
         private void RefreshCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -118,7 +119,7 @@ namespace Koni.WPF
         private void StartCommand_DoWork(object sender, DoWorkEventArgs e)
         {
             foreach (var item in queue.Items)
-                item.Save();
+                VideoModule.save(item, queue.FileSystem);
         }
 
         private void StartCommand_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

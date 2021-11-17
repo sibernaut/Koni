@@ -15,7 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Koni.Engine.Wrapper;
+using Koni.Engine;
 
 namespace Koni.WPF
 {
@@ -25,13 +25,11 @@ namespace Koni.WPF
     public partial class SettingsWindow : Window
     {
         public Config Config = new();
-        Presets Presets;
         public SettingsWindow()
         {
             InitializeComponent();
             Config.Load();
-            Presets = Config.Presets;
-            PresetsList.ItemsSource = Presets.Items;
+            PresetsList.ItemsSource = Config.Presets;
         }
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
@@ -40,7 +38,7 @@ namespace Koni.WPF
             dialog.Owner = this;
             if (dialog.ShowDialog() == true)
             {
-                Presets.Add(dialog.Preset);
+                Config.Add(dialog.Preset);
                 Config.Save();
             }
         }
@@ -53,20 +51,20 @@ namespace Koni.WPF
             dialog.Owner = this;
             if (dialog.ShowDialog() == true)
             {
-                Presets.Update(selectedIndex, dialog.Preset);
+                Config.Update(selectedIndex, dialog.Preset);
                 Config.Save();
             }
         }
 
         private void UpButton_Click(object sender, RoutedEventArgs e)
         {
-            Presets.MoveUp(PresetsList.SelectedIndex);
+            Config.MoveUp(PresetsList.SelectedIndex);
             Config.Save();
         }
 
         private void DownButton_Click(object sender, RoutedEventArgs e)
         {
-            Presets.MoveDown(PresetsList.SelectedIndex);
+            Config.MoveDown(PresetsList.SelectedIndex);
             Config.Save();
         }
 
@@ -77,7 +75,7 @@ namespace Koni.WPF
             var selected = PresetsList.SelectedItem as Preset;
             if (msgBox == MessageBoxResult.Yes)
             {
-                Presets.Remove(selected);
+                Config.Remove(selected);
                 Config.Save();
             }
         }

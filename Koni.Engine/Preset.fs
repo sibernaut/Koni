@@ -6,15 +6,14 @@ namespace Koni.Engine
 
 open System.Text.RegularExpressions
 
+type Preset =
+    { SearchFor: string
+      ReplaceWith: string }
+
 module Preset =
     let defaultPreset = 
         { SearchFor = @"^(.*?)\s-\s(\b(?!Opening|Ending|OVA\b|\d))"
           ReplaceWith = "$1: $2" }
-    let create search replace =
-        { SearchFor = search
-          ReplaceWith = replace }
-    let updateSearch preset search = { preset with SearchFor = search }
-    let updateReplace preset replace = { preset with ReplaceWith = replace }
     let apply preset input =
         Regex.Replace(input, preset.SearchFor, preset.ReplaceWith)
 

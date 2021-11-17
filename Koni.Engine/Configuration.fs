@@ -5,12 +5,14 @@
 namespace Koni.Engine
 
 open System
+open System.Collections.ObjectModel
 open System.IO.Abstractions
 open System.Text.Json
 
+type Configuration = { Presets: ObservableCollection<Preset> }
+
 module Configuration =
-    let create presets = { Presets = presets }
-    let updatePresets config presets = { config with Presets = presets }
+    let empty = { Presets = new ObservableCollection<Preset>() }
     let save config (filesystem: IFileSystem) =
         let jsonOptions = new JsonSerializerOptions(WriteIndented = true)
         let jsonStrings = JsonSerializer.Serialize(config, jsonOptions)
@@ -19,8 +21,6 @@ module Configuration =
     let load (filesystem: IFileSystem) =
         let path = filesystem.Path.Combine(AppContext.BaseDirectory, "config.json")
         let isExist = filesystem.File.Exists(path)
-        if not isExist then
-            let config = create (seq [ Preset.defaultPreset ])
-            save config filesystem
+        if not isExist then save empty filesystem
         let jsonStrings = filesystem.File.ReadAllText path
-        JsonSerializer.Deserialize<ConfigModel> jsonStrings
+        JsonSerializer.Deserialize<Configuration> jsonStrings
