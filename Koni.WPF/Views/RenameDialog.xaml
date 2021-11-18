@@ -1,4 +1,4 @@
-﻿<Window x:Class="Koni.WPF.RenameDialog"
+﻿<Window x:Class="Koni.WPF.Views.RenameDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -16,14 +16,14 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0">
+        <StackPanel Style="{DynamicResource StackPanelDialog}">
             <Label Content="Filename:"/>
             <TextBlock x:Name="FilenameLabel" TextWrapping="WrapWithOverflow"/>
             <Label Content="_Title:" Target="{Binding ElementName=TitleTextBox}"/>
             <TextBox x:Name="TitleTextBox"/>
         </StackPanel>
         <Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="LightGray"/>
-        <Grid Grid.Row="2" Style="{StaticResource BottomGrid}">
+        <Grid Grid.Row="2" Style="{StaticResource ButtonGrid}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="_Save" IsDefault="True" Click="SaveButton_Click"/>
                 <Button Content="_Cancel" IsCancel="True" Click="CancelButton_Click"/>

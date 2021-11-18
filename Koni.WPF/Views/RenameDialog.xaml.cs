@@ -2,11 +2,10 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-using Koni.Engine;
+using Koni.WPF.ViewModels;
 using System.Windows;
-using System.Windows.Input;
 
-namespace Koni.WPF
+namespace Koni.WPF.Views
 {
     /// <summary>
     /// Interaction logic for RenameDialog.xaml
@@ -15,11 +14,11 @@ namespace Koni.WPF
     {
         public string RenamedTitle;
 
-        public RenameDialog(Video item)
+        public RenameDialog(VideoViewModel video)
         {
             InitializeComponent();
-            FilenameLabel.Text = item.FileName;
-            TitleTextBox.Text = item.Title;
+            FilenameLabel.Text = video.FileName;
+            TitleTextBox.Text = video.Title;
             TitleTextBox.SelectAll();
             TitleTextBox.Focus();
         }

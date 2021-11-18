@@ -2,29 +2,17 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Koni.WPF.ViewModels;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Koni.Engine;
 
-namespace Koni.WPF
+namespace Koni.WPF.Views
 {
     /// <summary>
     /// Interaction logic for PresetDialog.xaml
     /// </summary>
     public partial class PresetDialog : Window
     {
-        public Preset Preset;
+        public PresetViewModel Preset;
 
         public PresetDialog()
         {
@@ -34,7 +22,7 @@ namespace Koni.WPF
             SearchTextBox.Focus();
         }
 
-        public PresetDialog(Preset preset)
+        public PresetDialog(PresetViewModel preset)
         {
             InitializeComponent();
             Title = "Edit preset";
